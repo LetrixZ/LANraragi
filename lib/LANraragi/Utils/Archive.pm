@@ -194,6 +194,7 @@ sub extract_thumbnail ( $thumbdir, $id, $page, $use_hq ) {
         # That way, no need to repeat a costly extraction later.
         my $shasum = shasum( $arcimg, 1 );
         $logger->debug("Setting thumbnail hash: $shasum");
+        $redis->hset( $id, "thumbpage", $page );
         $redis->hset( $id, "thumbhash", $shasum );
         $redis->quit();
     }

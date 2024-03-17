@@ -22,7 +22,7 @@ sub index {
     if ( $redis->exists($id) ) {
         my %hash = $redis->hgetall($id);
 
-        my ( $name, $title, $tags, $summary, $file, $thumbhash ) = @hash{qw(name title tags summary file thumbhash)};
+        my ( $name, $title, $tags, $summary, $file, $thumbpage, $thumbhash ) = @hash{qw(name title tags summary file thumbpage thumbhash)};
 
         ( $_ = redis_decode($_) ) for ( $name, $title, $tags, $summary );
 
@@ -39,6 +39,7 @@ sub index {
             tags      => xml_escape($tags),
             summary   => xml_escape($summary),
             file      => decode_utf8($file),
+            thumbpage => $thumbpage,
             thumbhash => $thumbhash,
             plugins   => \@pluginlist,
             title     => $self->LRR_CONF->get_htmltitle,

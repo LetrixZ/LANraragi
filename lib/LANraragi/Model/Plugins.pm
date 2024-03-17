@@ -206,7 +206,7 @@ sub exec_metadata_plugin {
         my $redis = LANraragi::Model::Config->get_redis;
         my %hash  = $redis->hgetall($id);
 
-        my ( $name, $title, $tags, $file, $thumbhash ) = @hash{qw(name title tags file thumbhash)};
+        my ( $name, $title, $tags, $file, $thumbpage, $thumbhash ) = @hash{qw(name title tags file thumbpage thumbhash)};
 
         ( $_ = LANraragi::Utils::Database::redis_decode($_) ) for ( $name, $title, $tags );
 
@@ -219,9 +219,11 @@ sub exec_metadata_plugin {
             eval { extract_thumbnail( $thumbdir, $id, 0, 1 ) };
             if ($@) {
                 $logger->warn("Error building thumbnail: $@");
+                $thumbpage = 0;
                 $thumbhash = "";
             } else {
-                $thumbhash = $redis->hget( $id, "thumbhash" );
+                $thumbpage = $redis->hget( $id, "thumbpage" );
+                $thumbhash = $redis->hget( $id, "thumbpage" );
                 $thumbhash = LANraragi::Utils::Database::redis_decode($thumbhash);
             }
         }
@@ -237,6 +239,7 @@ sub exec_metadata_plugin {
             archive_id     => $id,
             archive_title  => $title,
             existing_tags  => $tags,
+            thumbnail_page => $thumbpage,
             thumbnail_hash => $thumbhash,
             file_path      => $file,
             user_agent     => $ua,

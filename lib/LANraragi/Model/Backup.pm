@@ -62,7 +62,7 @@ sub build_backup_JSON {
 
         eval {
             my %hash = $redis->hgetall($id);
-            my ( $name, $title, $tags, $summary, $thumbhash ) = @hash{qw(name title tags summary thumbhash)};
+            my ( $name, $title, $tags, $summary, $thumbpage, $thumbhash ) = @hash{qw(name title tags summary thumbpage thumbhash)};
 
             ( $_ = redis_decode($_) ) for ( $name, $title, $tags, $summary );
             ( $_ = trim_CRLF($_) )    for ( $name, $title, $tags, $summary );
@@ -73,6 +73,7 @@ sub build_backup_JSON {
                 title     => $title,
                 tags      => $tags,
                 summary   => $summary,
+                thumbpage => $thumbpage,
                 thumbhash => $thumbhash,
                 filename  => $name
             );
@@ -89,6 +90,7 @@ sub build_backup_JSON {
 
 }
 
+#TODO: thumbpage
 #restore_from_JSON(backupJSON)
 #Restores metadata from a JSON to the Redis archive, for existing IDs.
 sub restore_from_JSON {

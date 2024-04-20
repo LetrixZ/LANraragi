@@ -216,7 +216,8 @@ sub build_json ( $id, %hash ) {
         progress     => $progress     ? int($progress)     : 0,
         pagecount    => $pagecount    ? int($pagecount)    : 0,
         lastreadtime => $lastreadtime ? int($lastreadtime) : 0,
-        size         => $arcsize      ? int($arcsize)      : 0
+        size         => $arcsize      ? int($arcsize)      : 0,
+        thumb_page   => $thumb_page   ? int($thumb_page)   : 1
     };
 
     return $arcdata;

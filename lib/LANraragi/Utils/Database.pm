@@ -191,8 +191,8 @@ sub get_archive_json_multi (@ids) {
 sub build_json ( $id, %hash ) {
 
     # Grab all metadata from the hash
-    my ( $name, $title, $tags, $summary, $file, $isnew, $progress, $pagecount, $lastreadtime, $arcsize, $thumb_page ) =
-      @hash{qw(name title tags summary file isnew progress pagecount lastreadtime arcsize thumb_page)};
+    my ( $name, $title, $tags, $summary, $file, $isnew, $progress, $pagecount, $lastreadtime, $arcsize, $thumbpage ) =
+      @hash{qw(name title tags summary file isnew progress pagecount lastreadtime arcsize thumbpage)};
 
     # Return undef if the file doesn't exist.
     return unless ( defined($file) && -e $file );
@@ -217,7 +217,7 @@ sub build_json ( $id, %hash ) {
         pagecount    => $pagecount    ? int($pagecount)    : 0,
         lastreadtime => $lastreadtime ? int($lastreadtime) : 0,
         size         => $arcsize      ? int($arcsize)      : 0,
-        thumb_page   => $thumb_page   ? int($thumb_page)   : 1
+        thumb_page   => $thumbpage   ? int($thumbpage)   : 1
     };
 
     return $arcdata;
